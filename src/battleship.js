@@ -27,7 +27,11 @@ const Ship = function (length, direction = 'horizontal') {
     return offset[number];
   }
 
-  return { hit };
+  function isSunk() {
+    return hitPositions.length === length;
+  }
+
+  return { hit, isSunk };
 };
 
 export { Ship };
