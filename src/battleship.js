@@ -15,14 +15,15 @@ const Ship = function (length, direction = 'horizontal') {
     [[-2, 0], [-1, 0], [0, 0], [1, 0], [2, 0]],
   ];
 
-  const offset = direction === 'horizontal'
+  const getOffsets = () => (direction === 'horizontal'
     ? horizontalOffsets[length - 1]
-    : verticalOffsets[length - 1];
+    : verticalOffsets[length - 1]);
 
   const hitPositions = [];
 
   function hit(number) {
     if (number > length - 1 || number < 0) return;
+    const offset = getOffsets();
     hitPositions.push(offset[number]);
     return offset[number];
   }
@@ -31,7 +32,7 @@ const Ship = function (length, direction = 'horizontal') {
     return hitPositions.length === length;
   }
 
-  return { hit, isSunk };
+  return { hit, isSunk, getOffsets };
 };
 
 export { Ship };
