@@ -54,7 +54,7 @@ test('Single hit is registered', () => {
   expect(currentBoard[4][4].getShip().reference.isSunk()).toBe(true);
 });
 
-test('Corvette correctly sunk', () => {
+test('Corvette correctly sunk by attacking all of its 3 positions', () => {
   const board = Board();
   board.placeShip(3, [4, 4]);
 
@@ -64,4 +64,22 @@ test('Corvette correctly sunk', () => {
 
   const isShipSunk = board.getBoard()[4][4].getShip().reference.isSunk();
   expect(isShipSunk).toBe(true);
+});
+
+test('Board correctly identifies when all ships on it are sunk', () => {
+  const board = Board();
+
+  board.placeShip(1, [2, 4]);
+  board.receiveAttack([2, 4]);
+
+  board.placeShip(1, [2, 4]);
+  board.receiveAttack([2, 4]);
+
+  board.placeShip(1, [3, 4]);
+  board.receiveAttack([3, 4]);
+
+  board.placeShip(1, [4, 4]);
+  board.receiveAttack([4, 4]);
+
+  expect(board.allShipsSunk()).toBe(true);
 });
