@@ -69,8 +69,8 @@ test('Corvette correctly sunk by attacking all of its 3 positions', () => {
 test('Board correctly identifies when all ships on it are sunk', () => {
   const board = Board();
 
-  board.placeShip(1, [2, 4]);
-  board.receiveAttack([2, 4]);
+  board.placeShip(1, [1, 4]);
+  board.receiveAttack([1, 4]);
 
   board.placeShip(1, [2, 4]);
   board.receiveAttack([2, 4]);
