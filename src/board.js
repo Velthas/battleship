@@ -6,6 +6,7 @@ const Tile = function () {
 
   const isHit = () => hit;
   const setHit = () => {
+    if (hit) return;
     if (ship) {
       ship.reference.hit(ship.position);
     }
@@ -41,6 +42,7 @@ const Board = function () {
   };
 
   const board = createBoard();
+  const ships = []; // Array to store ships that populate board
 
   const isPositionLegal = (coordinate, offsets) => {
     const coordinateX = coordinate[1];
@@ -74,11 +76,18 @@ const Board = function () {
       const coord = [coordinate[0] + position[0], coordinate[1] + position[1]];
       board[coord[0]][coord[1]].setShip(newShip, index);
     });
+    // After ship is placed, add it to an array to keep track
+    ships.push(newShip);
   };
 
   const receiveAttack = function (coordinate) {
     board[coordinate[0]][coordinate[1]].setHit();
   };
+
+  const allShipsSunk = function () {
+    const sunkShips = ships.filter(ship => ship.isSunk());
+    return sunkShips.length === ships.length;
+  }
 
   const getBoard = () => {
     const boardCopy = board;
@@ -89,6 +98,7 @@ const Board = function () {
     placeShip,
     getBoard,
     receiveAttack,
+    allShipsSunk,
   };
 };
 
