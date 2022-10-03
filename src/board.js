@@ -5,7 +5,12 @@ const Tile = function () {
   let ship = false; // Is false by default
 
   const isHit = () => hit;
-  const setHit = () => hit = true;
+  const setHit = () => {
+    if (ship) {
+      ship.reference.hit(ship.position);
+    }
+    hit = true;
+  };
 
   const hasShip = () => (ship !== false); // False if there isn't a ship, true if there is
   const setShip = (shipObject, position) => {
@@ -71,6 +76,10 @@ const Board = function () {
     });
   };
 
+  const receiveAttack = function (coordinate) {
+    board[coordinate[0]][coordinate[1]].setHit();
+  };
+
   const getBoard = () => {
     const boardCopy = board;
     return boardCopy;
@@ -79,6 +88,7 @@ const Board = function () {
   return {
     placeShip,
     getBoard,
+    receiveAttack,
   };
 };
 
