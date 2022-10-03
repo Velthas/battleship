@@ -45,3 +45,23 @@ test('Ships cannot be placed on top of each other', () => {
   // If the reference matches the first boat, then the second one didnt replace it
   expect(currentBoard[4][4].getShip().reference).toEqual(boat);
 });
+
+test('Single hit is registered', () => {
+  const board = Board();
+  board.placeShip(1, [4, 4]);
+  board.receiveAttack([4, 4]);
+  const currentBoard = board.getBoard();
+  expect(currentBoard[4][4].getShip().reference.isSunk()).toBe(true);
+});
+
+test('Corvette correctly sunk', () => {
+  const board = Board();
+  board.placeShip(3, [4, 4]);
+
+  board.receiveAttack([4, 4]);
+  board.receiveAttack([4, 3]);
+  board.receiveAttack([4, 5]);
+
+  const isShipSunk = board.getBoard()[4][4].getShip().reference.isSunk();
+  expect(isShipSunk).toBe(true);
+});
