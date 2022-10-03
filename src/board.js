@@ -87,7 +87,7 @@ const Board = function () {
   const allShipsSunk = function () {
     const sunkShips = ships.filter(ship => ship.isSunk());
     return sunkShips.length === ships.length;
-  }
+  };
 
   const getBoard = () => {
     const boardCopy = board;
