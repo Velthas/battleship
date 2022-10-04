@@ -41,8 +41,9 @@ const Board = function () {
     return newBoard;
   };
 
-  const board = createBoard();
-  const ships = []; // Array to store ships that populate board
+  const board = createBoard(); // A reference to the board itself
+  const ships = []; // We store the ships here to check when they are all sunk
+  const unplayedTiles = Array.from(Array(100).keys()); // This is useful for CPU, otherwise not
 
   const isPositionLegal = (coordinate, offsets) => {
     const coordinateX = coordinate[1];
@@ -82,11 +83,30 @@ const Board = function () {
 
   const receiveAttack = function (coordinate) {
     board[coordinate[0]][coordinate[1]].setHit();
+    markTileAsPlayed(coordinate);
   };
 
   const allShipsSunk = function () {
     const sunkShips = ships.filter(ship => ship.isSunk());
     return sunkShips.length === ships.length;
+  };
+
+  // This function prevents the computer from having to guess
+  // too many times before getting a free tile to hit
+  const markTileAsPlayed = function (coordinate) {
+    const x = coordinate[1];
+    const y = coordinate[0] * 10;
+    // The idea is that we find which of the 100 tiles
+    // has been hit, and remove it from the array
+    // The CPU can then choose any number out of the lenght
+    // of the array and they'll have a tile that has not been played
+    const playedTile = x + y;
+    unplayedTiles.splice(unplayedTiles.indexOf(playedTile), 1);
+  };
+  // Simply returns a copy of the unplayedTiles array
+  const getUnplayedTiles = function () {
+    const copyOfUnplayedTiles = unplayedTiles;
+    return copyOfUnplayedTiles;
   };
 
   const getBoard = () => {
@@ -98,6 +118,8 @@ const Board = function () {
     placeShip,
     getBoard,
     receiveAttack,
+    markTileAsPlayed,
+    getUnplayedTiles,
     allShipsSunk,
   };
 };
