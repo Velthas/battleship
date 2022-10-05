@@ -36,4 +36,4 @@ const domElements = (function () {
   return { createGridDivs, markHit };
 }());
 
-domElements.createGridDivs();
+export { domElements };
