@@ -60,7 +60,7 @@ const Board = function () {
             && actualY < 10 && actualY >= 0) {
         // This verifies is a ship is already on the tile
         return board[actualY][actualX].hasShip() === false;
-      }
+      } return false; // If somehow coordinates are skewed consider it illegal
     });
       // If all positions are legal, arrays will be of the same length
     return legalPositions.length === offsets.length;
