@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/battleship.js',
+  entry: './src/game.js',
   devtool: 'inline-source-map',
   module: {
     rules: [
