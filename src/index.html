@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship</title>
+    <script src="./modules/domElements.js" defer></script>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div class="header"><h1>BATTLESHIP</h1></div>
+    <div class="main">
+      <div class="status">
+        <p>Welcome to my Battleship simulator! Click on any tile on the enemy's board to begin the match!</p>
+      </div>
+      <div class="gameboards">
+        <div class="container">
+          <p class="your-board">YOUR FLEET</p>
+          <div id="friendly-sea">
+            <div class="upperRow">
+              <div class="number-tile"></div>
+              <div class="number-tile">1</div>
+              <div class="number-tile">2</div>
+              <div class="number-tile">3</div>
+              <div class="number-tile">4</div>
+              <div class="number-tile">5</div>
+              <div class="number-tile">6</div>
+              <div class="number-tile">7</div>
+              <div class="number-tile">8</div>
+              <div class="number-tile">9</div>
+              <div class="number-tile">10</div>
+              <div class="number-tile"></div>
+            </div>
+            <div class="leftRow">
+              <div class="letter-tile">A</div>
+              <div class="letter-tile">B</div>
+              <div class="letter-tile">C</div>
+              <div class="letter-tile">D</div>
+              <div class="letter-tile">E</div>
+              <div class="letter-tile">F</div>
+              <div class="letter-tile">G</div>
+              <div class="letter-tile">H</div>
+              <div class="letter-tile">I</div>
+              <div class="letter-tile">J</div>
+            </div>
+            <div id="player-board"></div>
+            <div class="rightRow">
+              <div class="letter-tile">A</div>
+              <div class="letter-tile">B</div>
+              <div class="letter-tile">C</div>
+              <div class="letter-tile">D</div>
+              <div class="letter-tile">E</div>
+              <div class="letter-tile">F</div>
+              <div class="letter-tile">G</div>
+              <div class="letter-tile">H</div>
+              <div class="letter-tile">I</div>
+              <div class="letter-tile">J</div>
+            </div>
+            <div class="lowerRow">
+            <div class="number-tile"></div>
+            <div class="number-tile">1</div>
+            <div class="number-tile">2</div>
+            <div class="number-tile">3</div>
+            <div class="number-tile">4</div>
+            <div class="number-tile">5</div>
+            <div class="number-tile">6</div>
+            <div class="number-tile">7</div>
+            <div class="number-tile">8</div>
+            <div class="number-tile">9</div>
+            <div class="number-tile">10</div>
+            <div class="number-tile"></div>
+          </div>
+        </div>
+        </div>
+        <div class="container">
+          <p class="opponent">OPPONENT</p>
+          <div id="enemy-sea">
+            <div class="upperRow">
+              <div class="number-tile"></div>
+              <div class="number-tile">1</div>
+              <div class="number-tile">2</div>
+              <div class="number-tile">3</div>
+              <div class="number-tile">4</div>
+              <div class="number-tile">5</div>
+              <div class="number-tile">6</div>
+              <div class="number-tile">7</div>
+              <div class="number-tile">8</div>
+              <div class="number-tile">9</div>
+              <div class="number-tile">10</div>
+              <div class="number-tile"></div>
+            </div>
+            <div class="leftRow">
+              <div class="letter-tile">A</div>
+              <div class="letter-tile">B</div>
+              <div class="letter-tile">C</div>
+              <div class="letter-tile">D</div>
+              <div class="letter-tile">E</div>
+              <div class="letter-tile">F</div>
+              <div class="letter-tile">G</div>
+              <div class="letter-tile">H</div>
+              <div class="letter-tile">I</div>
+              <div class="letter-tile">J</div>
+            </div>
+            <div id="enemy-board"></div>
+            <div class="rightRow">
+              <div class="letter-tile">A</div>
+              <div class="letter-tile">B</div>
+              <div class="letter-tile">C</div>
+              <div class="letter-tile">D</div>
+              <div class="letter-tile">E</div>
+              <div class="letter-tile">F</div>
+              <div class="letter-tile">G</div>
+              <div class="letter-tile">H</div>
+              <div class="letter-tile">I</div>
+              <div class="letter-tile">J</div>
+            </div>
+            <div class="lowerRow">
+            <div class="number-tile"></div>
+            <div class="number-tile">1</div>
+            <div class="number-tile">2</div>
+            <div class="number-tile">3</div>
+            <div class="number-tile">4</div>
+            <div class="number-tile">5</div>
+            <div class="number-tile">6</div>
+            <div class="number-tile">7</div>
+            <div class="number-tile">8</div>
+            <div class="number-tile">9</div>
+            <div class="number-tile">10</div>
+            <div class="number-tile"></div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"></div>
+  </body>
+</html>
