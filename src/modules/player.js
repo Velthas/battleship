@@ -11,7 +11,6 @@ const Player = function (player, enemyBoard) {
     if (opponentBoard.getBoard()[coordinate[0]][coordinate[1]].isHit()) return false;
     // Move is legal, so register the hit
     opponentBoard.receiveAttack(coordinate);
-    turnOver(); // and end the turn
     return true;
   };
 
@@ -23,6 +22,7 @@ const Player = function (player, enemyBoard) {
     const x = tile >= 10 ? Number(tile.toString()[1]) : tile;
     const y = tile >= 10 ? Number(tile.toString()[0]) : 0;
     playTurn([y, x]);
+    return [y, x];
   };
 
   const turnOver = function () {
