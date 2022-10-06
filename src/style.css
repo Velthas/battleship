@@ -40,13 +40,39 @@
 .status {
   grid-column: 1 / 3;
 
-  display: flex;
+  display: grid;
+  column-gap: 50px;
+  grid-template: 25px 25px / repeat(3, 50px);
+  column-gap: 15px;
+
   align-items: center;
   justify-content: center;
 }
 
-.status p {
-  font-size: 18px;
+p.legend {
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+div.legend:nth-child(4) {
+  background-color: var(--water-tile);
+}
+
+div.legend:nth-child(5) {
+ background: var(--hit-ship-color);
+}
+
+div.legend:nth-child(6) {
+background: var(--miss-shot-color);
+}
+
+div.legend:nth-child(4),
+div.legend:nth-child(5),
+div.legend:nth-child(6) {
+  height: 100%;
+  width: 25px;
+  justify-self: center;
 }
 
 .gameboards {
