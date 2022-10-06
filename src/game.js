@@ -10,8 +10,11 @@ const Game = (function () {
   let Protagonist = Player(1, enemyGameBoard);
   let CPU = Player(2, playerGameBoard);
 
+  let gameOver = false;
+
   // It places the ship on fixed locations so I can test the game loop
-  const placeShips = function () { // This function is here just for testing purposes
+  const placeShips = function () {
+    // This function is here just for testing purposes
     playerGameBoard.placeShip(5, [4, 4]);
     playerGameBoard.placeShip(4, [6, 4]);
     playerGameBoard.placeShip(3, [8, 4]);
@@ -26,15 +29,21 @@ const Game = (function () {
   };
 
   const playGameTurn = function (coordinate) {
+    if (gameOver) return; // If the game has ended, nothing happens on click
+
     const playerTurnPlayed = Protagonist.playTurn(coordinate); // Will return true if move played
     if (!playerTurnPlayed) return;
     domElements.markHit(enemyGameBoard, coordinate, 'enemy-board');
     Protagonist.turnOver(); // End the P1 turn
 
+    if (gameIsOver()) endGame(Protagonist);
+
     CPU.isTurn(); // CPU Turn
     const playedRandomCoordinate = CPU.playRandomMove(); // Will return true if move played
     domElements.markHit(playerGameBoard, playedRandomCoordinate, 'player-board');
     CPU.turnOver();
+
+    if (gameIsOver()) endGame(CPU);
 
     Protagonist.isTurn(); // Hand over turn to player
   };
@@ -50,14 +59,41 @@ const Game = (function () {
     });
   };
 
+  // Looks at wether all ships have been sunk or all moves made
+  // If any of the conditions is true, returns true.
   const gameIsOver = function () {
-    if(playerGameBoard.allShipsSunk() || enemyGameBoard.allShipsSunk()) return true;
-  }
+    if (
+      playerGameBoard.allShipsSunk()
+      || enemyGameBoard.allShipsSunk()
+      || playerGameBoard.getUnplayedTiles().length === 0
+      || enemyGameBoard.getUnplayedTiles().length === 0
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+  // Creates new players/boards and resets gameOver variable
+  const resetGameState = function () {
+    playerGameBoard = Board();
+    enemyGameBoard = Board();
+
+    Protagonist = Player(1, enemyGameBoard);
+    CPU = Player(2, playerGameBoard);
+
+    gameOver = false;
+  };
 
   const startGame = function () {
+    resetGameState();
+    domElements.deleteExistingBoards();
     domElements.createGridDivs();
     addEventListenersToEnemyBoard();
     placeShips();
+  };
+
+  const endGame = function (winningPlayer) {
+    gameOver = true; // Officially ends the game
   };
 
   return { startGame };
