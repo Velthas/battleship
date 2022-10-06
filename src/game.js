@@ -50,6 +50,10 @@ const Game = (function () {
     });
   };
 
+  const gameIsOver = function () {
+    if(playerGameBoard.allShipsSunk() || enemyGameBoard.allShipsSunk()) return true;
+  }
+
   const startGame = function () {
     domElements.createGridDivs();
     addEventListenersToEnemyBoard();
