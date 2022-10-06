@@ -1,8 +1,16 @@
 const domElements = (function () {
+  const friendlyBoard = document.querySelector('#friendly-sea');
+  const enemyBoard = document.querySelector('#enemy-sea');
+
+  // Creates the two necessary boards for the game
   function createGridDivs() {
-    const enemySea = document.querySelector('#enemy-board');
-    const friendlySea = document.querySelector('#player-board');
-    for (let i = 0; i < 100; i++) {
+    const enemySea = document.createElement('div'); // Create two containers to house tiles
+    enemySea.setAttribute('id', 'enemy-board');
+
+    const friendlySea = document.createElement('div'); // One per each player
+    friendlySea.setAttribute('id', 'player-board');
+
+    for (let i = 0; i < 100; i++) { // Create all the tiles
       const newDivOne = document.createElement('div');
       newDivOne.classList.add('tile');
 
@@ -12,6 +20,9 @@ const domElements = (function () {
       enemySea.appendChild(newDivOne);
       friendlySea.appendChild(newDivTwo);
     }
+    // Append the two grids to the appropriate container
+    friendlyBoard.appendChild(friendlySea);
+    enemyBoard.appendChild(enemySea);
   }
 
   function markHit(board, coordinate, friendOrFoe) {
@@ -28,12 +39,20 @@ const domElements = (function () {
 
     if (tile.hasShip()) {
       boardTiles[tileCoord].classList.add('hit'); // Add styling for hit ship
-      boardTiles[tileCoord].classList.add('ship'); // Add styling for hit ship
+      boardTiles[tileCoord].classList.add('ship');
     } else {
-      boardTiles[tileCoord].classList.add('hit'); // Add styling for empty ship
+      boardTiles[tileCoord].classList.add('hit'); // Add styling for empty tile hit
     }
   }
-  return { createGridDivs, markHit };
+  // Used to reset the boards for the game
+  const deleteExistingBoards = function () {
+    const playerBoard = friendlyBoard.querySelector('#player-board');
+    const opponentBoard = enemyBoard.querySelector('#enemy-board');
+    if (playerBoard) playerBoard.remove();
+    if (opponentBoard) enemyBoard.remove();
+  };
+
+  return { createGridDivs, markHit, deleteExistingBoards };
 }());
 
 export { domElements };
