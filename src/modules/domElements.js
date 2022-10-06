@@ -49,10 +49,34 @@ const domElements = (function () {
     const playerBoard = friendlyBoard.querySelector('#player-board');
     const opponentBoard = enemyBoard.querySelector('#enemy-board');
     if (playerBoard) playerBoard.remove();
-    if (opponentBoard) enemyBoard.remove();
+    if (opponentBoard) opponentBoard.remove();
   };
 
-  return { createGridDivs, markHit, deleteExistingBoards };
+  const createResetDiv = function (didPlayerWin, resetGameFunction) {
+    const resetDiv = document.createElement('div');
+    resetDiv.classList.add('reset');
+
+    const gameResult = document.createElement('h1');
+    gameResult.textContent = didPlayerWin ? 'You win' : 'You lose';
+    resetDiv.appendChild(gameResult);
+
+    const resetPara = document.createElement('p');
+    resetPara.textContent = didPlayerWin ? 'We got them! Well done, admiral. Shall we try again?'
+      : 'Seems like we lost this time. Would you like another try, admiral?';
+    resetDiv.appendChild(resetPara);
+
+    const resetButton = document.createElement('button');
+    resetButton.addEventListener('click', () => {
+      resetDiv.remove();
+      resetGameFunction();
+    });
+    resetButton.textContent = 'Restart';
+    resetDiv.appendChild(resetButton);
+
+    document.querySelector('body').appendChild(resetDiv);
+  };
+
+  return { createGridDivs, markHit, deleteExistingBoards, createResetDiv };
 }());
 
 export { domElements };
