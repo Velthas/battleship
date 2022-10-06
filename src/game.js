@@ -4,13 +4,14 @@ import { Board } from './modules/board';
 import { domElements } from './modules/domElements';
 
 const Game = (function () {
-  let playerGameBoard = Board();
-  let enemyGameBoard = Board();
+  let playerGameBoard;
+  let enemyGameBoard;
 
-  let Protagonist = Player(1, enemyGameBoard);
-  let CPU = Player(2, playerGameBoard);
+  let Protagonist;
+  let CPU;
 
   let gameOver = false;
+  let winner;
 
   // It places the ship on fixed locations so I can test the game loop
   const placeShips = function () {
@@ -36,14 +37,22 @@ const Game = (function () {
     domElements.markHit(enemyGameBoard, coordinate, 'enemy-board');
     Protagonist.turnOver(); // End the P1 turn
 
-    if (gameIsOver()) endGame(Protagonist);
+    if (gameIsOver()) {
+      declareWinner('Player');
+      endGame();
+      return;
+    }
 
     CPU.isTurn(); // CPU Turn
     const playedRandomCoordinate = CPU.playRandomMove(); // Will return true if move played
     domElements.markHit(playerGameBoard, playedRandomCoordinate, 'player-board');
     CPU.turnOver();
 
-    if (gameIsOver()) endGame(CPU);
+    if (gameIsOver()) {
+      declareWinner('CPU');
+      endGame();
+      return;
+    }
 
     Protagonist.isTurn(); // Hand over turn to player
   };
@@ -84,6 +93,10 @@ const Game = (function () {
     gameOver = false;
   };
 
+  const declareWinner = function (player) {
+    winner = player;
+  };
+
   const startGame = function () {
     resetGameState();
     domElements.deleteExistingBoards();
@@ -94,6 +107,8 @@ const Game = (function () {
 
   const endGame = function (winningPlayer) {
     gameOver = true; // Officially ends the game
+    const playerWon = winner === 'Player' ? true : false;
+    domElements.createResetDiv(playerWon, startGame);
   };
 
   return { startGame };
