@@ -1,4 +1,4 @@
-import { Ship } from './battleship';
+import { Ship } from '../modules/battleship';
 
 test('Hit method correctly marks position as hit', () => {
   const myCarrier = Ship(5);

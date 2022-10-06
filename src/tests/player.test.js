@@ -1,5 +1,5 @@
-import { Board } from './board';
-import { Player } from './player';
+import { Board } from '../modules/board';
+import { Player } from '../modules/player';
 
 test('Turn is played and correctly registered on board', () => {
   const enemyBoard = Board();
