@@ -47,7 +47,6 @@
 
 .status p {
   font-size: 18px;
-
 }
 
 .gameboards {
@@ -166,4 +165,66 @@
   color: var(--board-labels-color);
   font-weight: bold;
   font-family: monospace, Arial, Helvetica, sans-serif;
+}
+
+.reset {
+  height: 400px;
+  width: 400px;
+  background-color: whitesmoke;
+  box-shadow: 0px 5px 4px grey;
+
+
+  border-left: 20px solid var(--opponent-board);
+  border-radius: 8px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset h1 {
+  color: #fb004c;
+  margin-bottom: 5px;
+
+  text-transform: uppercase
+}
+
+.reset p {
+  padding: 20px;
+  
+  color: #0c0b0b;
+  text-align: center;
+  font-size: large;
+}
+
+div.reset button {
+  padding: 20px 10px;
+  margin-top: 20px;
+  width: 150px;
+  
+
+  border: 1px solid #fb004c;
+  border-radius: 8px;
+  box-shadow: 0px 4px 1px #911f41;
+
+  background-color: var(--your-board);
+  color: white;
+
+  font-family: var(--font-stack);
+  font-size: large;
+  text-transform: uppercase;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+div.reset button:focus {
+  transform: translateY(4px);
+  box-shadow: none;
 }
