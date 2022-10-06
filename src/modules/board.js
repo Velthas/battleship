@@ -66,9 +66,9 @@ const Board = function () {
     return legalPositions.length === offsets.length;
   };
 
-  const placeShip = (size, coordinate) => {
+  const placeShip = (ship, coordinate) => {
     // Make a ship and use offsets to verify if it can be placed
-    const newShip = Ship(size);
+    const newShip = ship;
     const shipOffsets = newShip.getOffsets();
     // Returns false if ship cannot be laid where requested
     if (!isPositionLegal(coordinate, shipOffsets)) return;
@@ -87,7 +87,7 @@ const Board = function () {
   };
 
   const allShipsSunk = function () {
-    const sunkShips = ships.filter(ship => ship.isSunk());
+    const sunkShips = ships.filter((ship) => ship.isSunk());
     return sunkShips.length === ships.length;
   };
 
@@ -114,8 +114,31 @@ const Board = function () {
     return boardCopy;
   };
 
+  // Randomly places the 5 expected ships for AI players
+  const placeShipsRandomly = function () {
+    const length = [5, 4, 3, 3, 2];
+    const myRandomShips = [];
+
+    for (let i = 0; i < 5; i++) {
+      const orientation = Math.random() * 2 > 1 ? 'horizontal' : 'vertical';
+      const newShip = Ship(length[i], orientation);
+      myRandomShips.push(newShip);
+    }
+    // When all 5 ships have been placed, ships array will be of length 5
+    while (ships.length < 5) { // that's we can exit the loop
+      const randomX = Math.floor(Math.random() * 9); // Get random coordinates to test
+      const randomY = Math.floor(Math.random() * 9);
+      // Place ship already checks if coordinates are legal.
+      // Which means ships lenght will only increase on succesful ship insertion
+      placeShip(myRandomShips[ships.length], [randomY, randomX]);
+    }
+
+    return ships.length;
+  };
+
   return {
     placeShip,
+    placeShipsRandomly,
     getBoard,
     receiveAttack,
     markTileAsPlayed,
