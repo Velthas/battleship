@@ -1,4 +1,6 @@
-const Ship = function (length, direction = 'horizontal') {
+const Ship = function (length, direction = 'horizontal', name) {
+  const shipName = name ? name : '';
+
   const horizontalOffsets = [
     [[0, 0]],
     [[0, 0], [0, 1]],
@@ -32,7 +34,11 @@ const Ship = function (length, direction = 'horizontal') {
     return hitPositions.length === length;
   }
 
-  return { hit, isSunk, getOffsets };
+  function getName() {
+    return shipName;
+  }
+
+  return { hit, isSunk, getOffsets, getName };
 };
 
 export { Ship };
