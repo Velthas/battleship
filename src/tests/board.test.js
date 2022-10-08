@@ -16,19 +16,19 @@ test('Ship in horizontal orientation is placed correctly on the board', () => {
   const carrier = Ship(5);
   board.placeShip(carrier, [4, 4]);
   // Check that all correct carrier tiles are marked
-  expect(board.getBoard()[4][1].hasShip()).toBe(false);
-  expect(board.getBoard()[4][2].hasShip()).not.toBe(false);
-  expect(board.getBoard()[4][3].hasShip()).not.toBe(false);
+  expect(board.getBoard()[4][3].hasShip()).toBe(false);
   expect(board.getBoard()[4][4].hasShip()).not.toBe(false);
   expect(board.getBoard()[4][5].hasShip()).not.toBe(false);
   expect(board.getBoard()[4][6].hasShip()).not.toBe(false);
-  expect(board.getBoard()[4][7].hasShip()).toBe(false);
+  expect(board.getBoard()[4][7].hasShip()).not.toBe(false);
+  expect(board.getBoard()[4][8].hasShip()).not.toBe(false);
+  expect(board.getBoard()[4][9].hasShip()).toBe(false);
 });
 
 test('Ship is not placed if positions are illegal (2 tiles off board)', () => {
   const board = Board();
   const carrier = Ship(5);
-  board.placeShip(carrier, [0, 0]);
+  board.placeShip(carrier, [0, 9]);
   const currentBoard = board.getBoard();
   // Tiles should be empty since not all positions are legal
   expect(currentBoard[0][0].hasShip()).toBe(false);
@@ -67,8 +67,8 @@ test('Corvette correctly sunk by attacking all of its 3 positions', () => {
   board.placeShip(corvette, [4, 4]);
 
   board.receiveAttack([4, 4]);
-  board.receiveAttack([4, 3]);
   board.receiveAttack([4, 5]);
+  board.receiveAttack([4, 6]);
 
   const isShipSunk = board.getBoard()[4][4].getShip().reference.isSunk();
   expect(isShipSunk).toBe(true);

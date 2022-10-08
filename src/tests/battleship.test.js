@@ -3,7 +3,7 @@ import { Ship } from '../modules/battleship';
 test('Hit method correctly marks position as hit', () => {
   const myCarrier = Ship(5);
   const hitOffset = myCarrier.hit(2);
-  expect(hitOffset).toEqual([0, 0]);
+  expect(hitOffset).toEqual([0, 2]);
 });
 
 test('A carrier is considered sunk when all 5 positions are hit', () => {
