@@ -15,6 +15,11 @@
 
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 @font-face {
   font-family: gunplay;
   src: url(./fonts/gunplay3d.ttf);
@@ -229,8 +234,9 @@ div.legend:nth-child(6) {
   font-size: large;
 }
 
-div.reset button {
-  padding: 20px 10px;
+div.reset button,
+div.place-ships button {
+  padding: 15px 10px;
   margin-top: 20px;
   width: 150px;
   
@@ -253,4 +259,83 @@ div.reset button {
 div.reset button:focus {
   transform: translateY(4px);
   box-shadow: none;
+}
+
+.place-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(5, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.place-ships {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  background-color: whitesmoke;
+  box-shadow: 0px 5px 5px #706565;
+
+  border-radius: 8px;
+}
+
+.mock-grid {
+  width: 350px;
+  height: 350px;
+
+  display: grid;
+  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+  gap: 1px;
+
+  padding: 30px;
+}
+
+.ship-preview {
+  position: absolute;
+}
+
+.carrier {
+  background-color: var(--carrier);
+}
+
+.battleship {
+  background-color: var(--battleship);
+}
+
+.submarine {
+  background-color: var(--submarine);
+}
+
+.destroyer {
+  background-color: var(--destroyer);
+}
+
+.patroller {
+  background-color: var(--cruiser);
+}
+
+.place-ships button {
+  margin: 20px 10px;
+  padding: 15px 10px;
+
+  width: 150px;
+
+  border: none;
+  border-radius: 8px;
+
+  text-transform: uppercase;
+  font-size: 18px;
+  color: white;
+  font-weight: 700;
+
+  background-color: var(--your-board);
 }
