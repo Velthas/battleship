@@ -81,7 +81,7 @@ const Game = (function () {
 
   const endGame = function () {
     gameOver = true; // Officially ends the game
-    const playerWon = winner === 'Player' ? true : false;
+    const playerWon = winner === 'Player';
     domElements.createResetDiv(playerWon, startGame);
   };
 
