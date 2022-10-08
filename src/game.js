@@ -13,22 +13,6 @@ const Game = (function () {
   let gameOver = false;
   let winner;
 
-  // It places the ship on fixed locations so I can test the game loop
-  const placeShips = function () {
-    // This function is here just for testing purposes
-    playerGameBoard.placeShip(5, [4, 4]);
-    playerGameBoard.placeShip(4, [6, 4]);
-    playerGameBoard.placeShip(3, [8, 4]);
-    playerGameBoard.placeShip(3, [9, 4]);
-    playerGameBoard.placeShip(2, [2, 4]);
-
-    enemyGameBoard.placeShip(5, [4, 4]);
-    enemyGameBoard.placeShip(4, [6, 4]);
-    enemyGameBoard.placeShip(3, [8, 4]);
-    enemyGameBoard.placeShip(3, [9, 4]);
-    enemyGameBoard.placeShip(2, [2, 4]);
-  };
-
   const playGameTurn = function (coordinate) {
     if (gameOver) return; // If the game has ended, nothing happens on click
 
@@ -55,17 +39,6 @@ const Game = (function () {
     }
 
     Protagonist.isTurn(); // Hand over turn to player
-  };
-
-  const addEventListenersToEnemyBoard = function () {
-    const allTiles = Array.from(document.querySelectorAll('#enemy-board div'));
-    allTiles.forEach((tile, index) => {
-      tile.addEventListener('click', () => {
-        const x = index >= 10 ? Number(index.toString()[1]) : index;
-        const y = index >= 10 ? Number(index.toString()[0]) : 0;
-        playGameTurn([y, x]);
-      });
-    });
   };
 
   // Looks at wether all ships have been sunk or all moves made
@@ -101,11 +74,12 @@ const Game = (function () {
     resetGameState();
     domElements.deleteExistingBoards();
     domElements.createGridDivs();
-    addEventListenersToEnemyBoard();
-    placeShips();
+    domElements.addEventListenersToEnemyBoard(playGameTurn);
+    enemyGameBoard.placeShipsRandomly();
+    domElements.setFriendlyBoard(playerGameBoard, playerGameBoard.createUserShips());
   };
 
-  const endGame = function (winningPlayer) {
+  const endGame = function () {
     gameOver = true; // Officially ends the game
     const playerWon = winner === 'Player' ? true : false;
     domElements.createResetDiv(playerWon, startGame);
