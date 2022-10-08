@@ -1,5 +1,7 @@
 const Ship = function (length, direction = 'horizontal', name) {
-  const shipName = name ? name : '';
+  const shipName = name || '';
+
+  const orientation = direction;
 
   const horizontalOffsets = [
     [[0, 0]],
@@ -17,7 +19,7 @@ const Ship = function (length, direction = 'horizontal', name) {
     [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]],
   ];
 
-  const getOffsets = () => (direction === 'horizontal'
+  const getOffsets = () => (orientation === 'horizontal'
     ? horizontalOffsets[length - 1]
     : verticalOffsets[length - 1]);
 

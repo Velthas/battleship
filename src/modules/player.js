@@ -22,7 +22,7 @@ const Player = function (player, enemyBoard) {
     const x = tile >= 10 ? Number(tile.toString()[1]) : tile;
     const y = tile >= 10 ? Number(tile.toString()[0]) : 0;
     playTurn([y, x]);
-    return [y, x];
+    return [y, x]; // Returns the coordinate hit for checking
   };
 
   const turnOver = function () {
