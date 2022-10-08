@@ -25,6 +25,17 @@ const domElements = (function () {
     enemyBoard.appendChild(enemySea);
   }
 
+  const addEventListenersToEnemyBoard = function (playGameTurn) {
+    const allTiles = Array.from(document.querySelectorAll('#enemy-board div'));
+    allTiles.forEach((tile, index) => {
+      tile.addEventListener('click', () => {
+        const x = index >= 10 ? Number(index.toString()[1]) : index;
+        const y = index >= 10 ? Number(index.toString()[0]) : 0;
+        playGameTurn([y, x]);
+      });
+    });
+  };
+
   function markHit(board, coordinate, friendOrFoe) {
     // Coordinate is an array with y and x of board.
     const tile = board.getBoard()[coordinate[0]][coordinate[1]];
@@ -44,6 +55,7 @@ const domElements = (function () {
       boardTiles[tileCoord].classList.add('hit'); // Add styling for empty tile hit
     }
   }
+
   // Used to reset the boards for the game
   const deleteExistingBoards = function () {
     const playerBoard = friendlyBoard.querySelector('#player-board');
@@ -76,7 +88,101 @@ const domElements = (function () {
     document.querySelector('body').appendChild(resetDiv);
   };
 
-  return { createGridDivs, markHit, deleteExistingBoards, createResetDiv };
+  const setFriendlyBoard = function (gameBoard, arrayOfShips) {
+    let placedShips = 0; // Serves as a counter
+    let orientation = 'horizontal';
+
+    const verticalShips = arrayOfShips[1]; // This is where we draw the ships from
+    const horizontalShips = arrayOfShips[0];
+    const shipNames = ['Carrier', 'Battleship', 'Destroyer', 'Submarine', 'Patrol'];
+
+    const placeShipsContainer = document.createElement('div'); // Container to add low opacity backdrop
+    placeShipsContainer.classList.add('place-container');
+
+    const placeShipsDiv = document.createElement('div'); // This is the actual 'form' container
+    placeShipsDiv.classList.add('place-ships');
+    placeShipsContainer.appendChild(placeShipsDiv);
+
+    const divTitle = document.createElement('h1'); // Title of the form
+    divTitle.textContent = 'PLACE YOUR SHIPS';
+    placeShipsDiv.appendChild(divTitle);
+
+    const paraInfo = document.createElement('p'); // This paragraph will be used to name ships
+    paraInfo.textContent = 'Please place your Carrier.';
+    placeShipsDiv.appendChild(paraInfo);
+
+    const sandboxGrid = document.createElement('div'); // This is the board where we are planting ships
+    sandboxGrid.classList.add('mock-grid');
+    for (let i = 0; i < 100; i++) { // Create all the tiles
+      const tile = document.createElement('div');
+      tile.classList.add('tile');
+
+      // eslint-disable-next-line no-loop-func
+      tile.addEventListener('mouseenter', () => { // When the mouse enters a tile,
+        const previousPreview = document.querySelector('.ship-preview'); // it creates an absolutely positioned div
+        if (previousPreview) previousPreview.remove(); // that is of the ship size
+
+        const shipPreview = document.createElement('div');
+        shipPreview.classList.add('ship-preview'); // Horizontal or vertical is the same here
+        shipPreview.classList.add(`${horizontalShips[placedShips].getName().toLowerCase()}`); // just need the name
+
+        // Works on either array because ships at the same index have same length
+        const shipLength = horizontalShips[placedShips].getOffsets().length;
+
+        if (orientation === 'horizontal') { // Warning: changing the css size of the board will break this.
+          shipPreview.setAttribute('style', `width:${shipLength * 35}px; height:35px;`);
+        } else { // this is intended for a 10x10 grid of size 350.
+          shipPreview.setAttribute('style', `width:35px; height:${shipLength * 35}px;`);
+        }
+        tile.appendChild(shipPreview);
+      });
+
+      // eslint-disable-next-line no-loop-func
+      tile.addEventListener('click', () => { // If position is legal, it appends the ship to the board
+        const y = i > 9 ? Number(i.toString()[0]) : 0; // and moves counter forward for the next
+        const x = i < 10 ? i : Number(i.toString()[1]); // When 5 ships are placed, deletes form.
+
+        const currentShip = orientation === 'horizontal'
+          ? horizontalShips[placedShips]
+          : verticalShips[placedShips];
+
+        if (gameBoard.isPositionLegal([y, x], currentShip.getOffsets())) {
+          gameBoard.placeShip(currentShip, [y, x]);
+          placedShips += 1;
+          console.log(gameBoard)
+          if (placedShips < 5) {
+            paraInfo.textContent = `Please place your ${horizontalShips[placedShips].getName()}`;
+          }
+        }
+        if (placedShips === 5) {
+          placeShipsContainer.remove();
+        }
+      });
+      sandboxGrid.appendChild(tile);
+    }
+    placeShipsDiv.appendChild(sandboxGrid);
+
+    const rotateButton = document.createElement('button');
+    rotateButton.addEventListener('click', () => {
+      const previousPreview = document.querySelector('.ship-preview');
+      if (previousPreview) previousPreview.remove();
+      orientation = orientation === 'horizontal' ? 'vertical' : 'horizontal';
+    });
+    rotateButton.textContent = 'Rotate';
+
+    placeShipsDiv.appendChild(rotateButton);
+
+    document.querySelector('body').appendChild(placeShipsContainer);
+  };
+
+  return {
+    createGridDivs,
+    addEventListenersToEnemyBoard,
+    markHit,
+    deleteExistingBoards,
+    createResetDiv,
+    setFriendlyBoard,
+  };
 }());
 
 export { domElements };
