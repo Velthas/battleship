@@ -94,15 +94,13 @@ const Board = function () {
   // This function prevents the computer from having to guess
   // too many times before getting a free tile to hit
   const markTileAsPlayed = function (coordinate) {
-    const x = coordinate[1];
-    const y = coordinate[0] * 10;
-    // The idea is that we find which of the 100 tiles
-    // has been hit, and remove it from the array
-    // The CPU can then choose any number out of the lenght
-    // of the array and they'll have a tile that has not been played
-    const playedTile = x + y;
-    unplayedTiles.splice(unplayedTiles.indexOf(playedTile), 1);
+    const x = coordinate[1]; // The idea is that we find which of the 100 tiles
+    const y = coordinate[0] * 10; // has been hit, and remove it from the array
+    const playedTile = x + y; // The CPU can then choose any number out of the lenght
+    unplayedTiles.splice(unplayedTiles.indexOf(playedTile), 1); // of the array
+    // and they'll have a tile that has not been played
   };
+
   // Simply returns a copy of the unplayedTiles array
   const getUnplayedTiles = function () {
     const copyOfUnplayedTiles = unplayedTiles;
@@ -125,20 +123,37 @@ const Board = function () {
       myRandomShips.push(newShip);
     }
     // When all 5 ships have been placed, ships array will be of length 5
-    while (ships.length < 5) { // that's we can exit the loop
+    while (ships.length < 5) {
       const randomX = Math.floor(Math.random() * 9); // Get random coordinates to test
       const randomY = Math.floor(Math.random() * 9);
-      // Place ship already checks if coordinates are legal.
-      // Which means ships lenght will only increase on succesful ship insertion
+      // Place ship already checks if coordinates are legal
+      // which means ships lenght will only increase on succesful ship insertion
       placeShip(myRandomShips[ships.length], [randomY, randomX]);
     }
 
     return ships.length;
   };
 
+  // Creates both horizontal and vertical version of each ship
+  const createUserShips = function () { // we then serve this multidim. array to a DOM Function
+    const shipLengths = [5, 4, 3, 3, 2]; // which uses it to allow users to place their ships
+    const verticalShips = []; // with their choosen orientation
+    const horizontalShips = [];
+    const shipNames = ['Carrier', 'Battleship', 'Destroyer', 'Submarine', 'Patroller'];
+
+    for (let i = 0; i < shipLengths.length; i++) {
+      verticalShips.push(Ship(shipLengths[i], 'vertical', shipNames[i]));
+      horizontalShips.push(Ship(shipLengths[i], 'horizontal', shipNames[i]));
+    }
+
+    return [horizontalShips, verticalShips];
+  };
+
   return {
     placeShip,
     placeShipsRandomly,
+    createUserShips,
+    isPositionLegal,
     getBoard,
     receiveAttack,
     markTileAsPlayed,
