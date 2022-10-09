@@ -1,6 +1,9 @@
+import { AI } from './ai';
+
 const Player = function (player, enemyBoard) {
   let turn = player === 1;
   const opponentBoard = enemyBoard;
+  const cortana = AI(opponentBoard);
 
   // If the attempted move is legal, does it and returns true
   // Otherwise returns false
@@ -16,12 +19,18 @@ const Player = function (player, enemyBoard) {
 
   // Looks at the pool of unhit tiles and randomly picks one
   const playRandomMove = function () {
+    if (cortana.hasMovesToPlay()) {
+      const move = cortana.getMove();
+      playTurn([move[0], move[1]]);
+      return move;
+    }
     const unplayedTiles = enemyBoard.getUnplayedTiles();
     const randomNumber = Math.floor(Math.random() * unplayedTiles.length);
     const tile = unplayedTiles[randomNumber];
     const x = tile >= 10 ? Number(tile.toString()[1]) : tile;
     const y = tile >= 10 ? Number(tile.toString()[0]) : 0;
     playTurn([y, x]);
+    if (enemyBoard.getBoard()[y][x].hasShip()) cortana.initialize([y, x]);
     return [y, x]; // Returns the coordinate hit for checking
   };
 
