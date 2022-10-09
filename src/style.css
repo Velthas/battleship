@@ -2,7 +2,7 @@
   --board-labels-color: #a0a0a0;
   --water-tile: #c9daf8;
   --water-tile-hover: #b6cdf5;
-  --carrier: #ea4335;
+  --carrier: #cf53d1;
   --destroyer: #44bdc6;
   --submarine: #34a853;
   --battleship: #fbbc03;
@@ -35,6 +35,8 @@ body {
 .header h1 {
   font-size: 80px;
   margin-top: 15px;
+  letter-spacing: 10px;
+  font-weight: normal;
 }
 
 .main {
