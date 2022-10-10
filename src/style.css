@@ -3,10 +3,15 @@
   --water-tile: #c9daf8;
   --water-tile-hover: #b6cdf5;
   --carrier: #cf53d1;
+  --carrier-hover: #ac47ad;
   --destroyer: #44bdc6;
+  --destroyer-hover: #389ca3;
   --submarine: #34a853;
+  --submarine-hover: #288140;
   --battleship: #fbbc03;
+  --battleship-hover: #b38d1b;
   --cruiser: #ff6c00;
+  --cruiser-hover: #b34d05;
   --your-board: #fb004c;
   --opponent-board: #646f8b;
   --hit-ship-color: #fb004c;
@@ -15,9 +20,15 @@
 
 }
 
-body {
+body, 
+html {
+  width: 100%;
+  height: 100%;
+
   margin: 0;
   padding: 0;
+
+  box-sizing: border-box;
 }
 
 @font-face {
@@ -39,16 +50,10 @@ body {
   font-weight: normal;
 }
 
-.main {
-  display: grid;
-  grid-template: 50px 3fr / 1fr 1fr;
-}
-
 .status {
   grid-column: 1 / 3;
 
   display: grid;
-  column-gap: 50px;
   grid-template: 25px 25px / repeat(3, 50px);
   column-gap: 15px;
 
@@ -210,7 +215,7 @@ div.legend:nth-child(6) {
   border-left: 20px solid var(--opponent-board);
   border-radius: 8px;
 
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -264,15 +269,16 @@ div.reset button:focus {
 }
 
 .place-container {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 
   width: 100%;
   height: 100%;
 
-  background-color: rgba(5, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.247);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -288,6 +294,12 @@ div.reset button:focus {
   box-shadow: 0px 5px 5px #706565;
 
   border-radius: 8px;
+}
+
+.place-ships h1 {
+  font-family: 'Gunplay', var(--font-stack);
+  font-weight: normal;
+  letter-spacing: 2px;
 }
 
 .mock-grid {
@@ -309,20 +321,40 @@ div.reset button:focus {
   background-color: var(--carrier);
 }
 
+.carrier:hover {
+  background-color: var(--carrier-hover);
+}
+
 .battleship {
   background-color: var(--battleship);
+}
+
+.battleship:hover {
+  background-color: var(--battleship-hover);
 }
 
 .submarine {
   background-color: var(--submarine);
 }
 
+.submarine:hover {
+  background-color: var(--submarine-hover);
+}
+
 .destroyer {
   background-color: var(--destroyer);
 }
 
+.destroyer:hover {
+  background-color: var(--destroyer-hover);
+}
+
 .patroller {
   background-color: var(--cruiser);
+}
+
+.patroller:hover {
+  background-color: var(--cruiser-hover);
 }
 
 .place-ships button {
@@ -340,4 +372,34 @@ div.reset button:focus {
   font-weight: 700;
 
   background-color: var(--your-board);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: whitesmoke;
+ 
+}
+
+a {
+  text-decoration: none;
+  color: var(--your-board);
+}
+
+a:hover {
+  color: var(--hit-ship-color);
+}
+
+@media (max-width: 930px) {
+  .header h1 {
+    font-size: 50px;
+  }
+
+  .gameboards {
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px 0;
+  }
 }
