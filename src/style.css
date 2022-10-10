@@ -148,7 +148,7 @@ div.legend:nth-child(6) {
   cursor: pointer;
 }
 
-.tile.hit {
+.gameboards .tile.hit {
   background-color: var(--miss-shot-color);
 }
 
@@ -401,5 +401,13 @@ a:hover {
     flex-direction: column;
     gap: 20px;
     padding: 10px 0;
+  }
+
+  .mock-grid {
+    padding: 30px 15px
+  }
+
+  .reset {
+    width: 300px;
   }
 }
