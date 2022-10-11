@@ -1,8 +1,10 @@
 import { AI } from './ai';
+import { Ship } from './battleship';
 
-const Player = function (player, enemyBoard) {
+const Player = function (player, playerBoard, enemyBoard) {
   let turn = player === 1;
   const opponentBoard = enemyBoard;
+  const ownBoard = playerBoard;
   const cortana = AI(opponentBoard);
 
   // If the attempted move is legal, does it and returns true
@@ -34,6 +36,44 @@ const Player = function (player, enemyBoard) {
     return [y, x]; // Returns the coordinate hit for checking
   };
 
+  // Creates both horizontal and vertical version of each ship
+  const createUserShips = function () { // we then serve this multidim. array to a DOM Function
+    const shipLengths = [5, 4, 3, 3, 2]; // which uses it to allow users to place their ships
+    const verticalShips = []; // with their choosen orientation
+    const horizontalShips = [];
+    const shipNames = ['Carrier', 'Battleship', 'Destroyer', 'Submarine', 'Patroller'];
+
+    for (let i = 0; i < shipLengths.length; i++) {
+      verticalShips.push(Ship(shipLengths[i], 'vertical', shipNames[i]));
+      horizontalShips.push(Ship(shipLengths[i], 'horizontal', shipNames[i]));
+    }
+
+    return [horizontalShips, verticalShips];
+  };
+
+  // Randomly places the 5 expected ships for AI players
+  const placeShipsRandomly = function () {
+    const length = [5, 4, 3, 3, 2];
+    const myRandomShips = [];
+    let shipNumber = 0;
+
+    for (let i = 0; i < 5; i++) {
+      const orientation = Math.random() * 2 > 1 ? 'horizontal' : 'vertical';
+      const newShip = Ship(length[i], orientation);
+      myRandomShips.push(newShip);
+    }
+    // When all 5 ships have been placed, ships array will be of length 5
+    while (shipNumber < 5) {
+      const randomX = Math.floor(Math.random() * 9); // Get random coordinates to test
+      const randomY = Math.floor(Math.random() * 9);
+      // Place ship already checks if coordinates are legal
+      // which means ships lenght will only increase on succesful ship insertion
+      ownBoard.placeShip(myRandomShips[shipNumber], [randomY, randomX]);
+      shipNumber = ownBoard.getShipsLength();
+    }
+    return shipNumber;
+  };
+
   const turnOver = function () {
     turn = false;
   };
@@ -53,6 +93,8 @@ const Player = function (player, enemyBoard) {
     turnOver,
     isTurn,
     turnState,
+    createUserShips,
+    placeShipsRandomly,
   };
 };
 
