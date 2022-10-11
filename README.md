@@ -69,7 +69,7 @@ The AI is implemented through these methods:
 #### 5. DomElements
 This module essentially handles everything Dom Related, generating the grids to house the boards and handles the ship placement minigame in the beginning. This is definitely more on the dom manipulation side of things, so I think no further clarifications are needed.
 #### 6. Game
-The game module puts all the modules we've ran through together to form the main game loop for the name. The code itself is pretty straightforward, and just the combination of all the other functions we've described thus far.
+The game module puts all the modules we've ran through together to form the main game loop for the game. The code itself is pretty straightforward, and just the combination of all the other functions we've described thus far.
  
 ### Conclusions 
 My biggest takeaway from this project is the extreme importance of test driven development and its many benefits: while on the surface it may seem a significant time drain, by keeping in mind the rules set forward by Sandi Metz (https://www.youtube.com/watch?v=URSWYvyc42M&ab_channel=Confreaks) one can create better, more scalable applications that are easy to work with and understand.
