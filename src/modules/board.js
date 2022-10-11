@@ -103,62 +103,23 @@ const Board = function () {
 
   // Simply returns a copy of the unplayedTiles array
   const getUnplayedTiles = function () {
-    const copyOfUnplayedTiles = unplayedTiles;
-    return copyOfUnplayedTiles;
+    const copyOfUnplayedTiles = JSON.parse(JSON.stringify(unplayedTiles));
+    return copyOfUnplayedTiles; // returns deep copy
   };
 
-  const getBoard = () => {
-    const boardCopy = board;
-    return boardCopy;
-  };
+  const getBoard = () => board;
 
-  // Randomly places the 5 expected ships for AI players
-  const placeShipsRandomly = function () {
-    const length = [5, 4, 3, 3, 2];
-    const myRandomShips = [];
-
-    for (let i = 0; i < 5; i++) {
-      const orientation = Math.random() * 2 > 1 ? 'horizontal' : 'vertical';
-      const newShip = Ship(length[i], orientation);
-      myRandomShips.push(newShip);
-    }
-    // When all 5 ships have been placed, ships array will be of length 5
-    while (ships.length < 5) {
-      const randomX = Math.floor(Math.random() * 9); // Get random coordinates to test
-      const randomY = Math.floor(Math.random() * 9);
-      // Place ship already checks if coordinates are legal
-      // which means ships lenght will only increase on succesful ship insertion
-      placeShip(myRandomShips[ships.length], [randomY, randomX]);
-    }
-
-    return ships.length;
-  };
-
-  // Creates both horizontal and vertical version of each ship
-  const createUserShips = function () { // we then serve this multidim. array to a DOM Function
-    const shipLengths = [5, 4, 3, 3, 2]; // which uses it to allow users to place their ships
-    const verticalShips = []; // with their choosen orientation
-    const horizontalShips = [];
-    const shipNames = ['Carrier', 'Battleship', 'Destroyer', 'Submarine', 'Patroller'];
-
-    for (let i = 0; i < shipLengths.length; i++) {
-      verticalShips.push(Ship(shipLengths[i], 'vertical', shipNames[i]));
-      horizontalShips.push(Ship(shipLengths[i], 'horizontal', shipNames[i]));
-    }
-
-    return [horizontalShips, verticalShips];
-  };
+  const getShipsLength = () => ships.length;
 
   return {
     placeShip,
-    placeShipsRandomly,
-    createUserShips,
     isPositionLegal,
     getBoard,
     receiveAttack,
     markTileAsPlayed,
     getUnplayedTiles,
     allShipsSunk,
+    getShipsLength,
   };
 };
 
