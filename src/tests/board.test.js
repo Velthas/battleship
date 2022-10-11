@@ -97,7 +97,3 @@ test('Board correctly identifies when all ships on it are sunk', () => {
   expect(board.allShipsSunk()).toBe(true);
 });
 
-test('Check if 5 ships are properly laid out on board', () => {
-  const board = Board();
-  expect(board.placeShipsRandomly()).toBe(5);
-});
