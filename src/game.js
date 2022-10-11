@@ -60,8 +60,8 @@ const Game = (function () {
     playerGameBoard = Board();
     enemyGameBoard = Board();
 
-    Protagonist = Player(1, enemyGameBoard);
-    CPU = Player(2, playerGameBoard);
+    Protagonist = Player(1, playerGameBoard, enemyGameBoard);
+    CPU = Player(2, enemyGameBoard, playerGameBoard);
 
     gameOver = false;
   };
@@ -75,8 +75,8 @@ const Game = (function () {
     domElements.deleteExistingBoards();
     domElements.createGridDivs();
     domElements.addEventListenersToEnemyBoard(playGameTurn);
-    enemyGameBoard.placeShipsRandomly();
-    domElements.setFriendlyBoard(playerGameBoard, playerGameBoard.createUserShips());
+    CPU.placeShipsRandomly();
+    domElements.setFriendlyBoard(playerGameBoard, Protagonist.createUserShips());
   };
 
   const endGame = function () {
