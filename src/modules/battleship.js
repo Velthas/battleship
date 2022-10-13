@@ -1,46 +1,32 @@
-const Ship = function (length, direction = 'horizontal', name) {
+const Ship = function (length, direction, name) {
   const shipName = name || '';
+  const orientation = direction || 'horizontal';
+  const size = length;
+  let health = size;
 
-  const orientation = direction;
+  const calculateOffsets = function () {
+    const arr = [];
+    for (let i = 0; i < size; i++) {
+      const x = orientation === 'horizontal' ? i : 0;
+      const y = orientation === 'horizontal' ? 0 : i;
+      arr.push([y, x]);
+    }
+    return arr;
+  };
 
-  const horizontalOffsets = [
-    [[0, 0]],
-    [[0, 0], [0, 1]],
-    [[0, 0], [0, 1], [0, 2]],
-    [[0, 0], [0, 1], [0, 2], [0, 3]],
-    [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]],
-  ];
+  const offsets = calculateOffsets();
 
-  const verticalOffsets = [
-    [[0, 0]],
-    [[0, 0], [1, 0]],
-    [[0, 0], [1, 0], [2, 0]],
-    [[0, 0], [1, 0], [2, 0], [3, 0]],
-    [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]],
-  ];
+  const getOffsets = () => offsets;
 
-  const getOffsets = () => (orientation === 'horizontal'
-    ? horizontalOffsets[length - 1]
-    : verticalOffsets[length - 1]);
+  const hit = () => { health -= 1; };
 
-  const hitPositions = [];
+  const isSunk = () => health === 0;
 
-  function hit(number) {
-    if (number > length - 1 || number < 0) return;
-    const offset = getOffsets();
-    hitPositions.push(offset[number]);
-    return offset[number];
-  }
+  const getName = () => shipName;
 
-  function isSunk() {
-    return hitPositions.length === length;
-  }
-
-  function getName() {
-    return shipName;
-  }
-
-  return { hit, isSunk, getOffsets, getName };
+  return {
+    hit, isSunk, getOffsets, getName,
+  };
 };
 
 export { Ship };
