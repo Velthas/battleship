@@ -34,24 +34,23 @@ const Game = (function () {
 
   const endGame = function () {
     gameOver = true;
-    winner = User.turnState() === true ? 'CPU' : 'Player';
+    winner = CPU.turnState() === false ? 'CPU' : 'Player';
     domElements.createResetDiv(winner === 'Player', startGame);
   };
 
   const playGameTurn = function (coordinate) {
     if (gameOver) return;
 
-    User.playTurn(coordinate); // User Turn
+    User.playTurn(coordinate);
     if (User.turnState()) return;
     domElements.markHit(enemyGameBoard, coordinate, 'enemy-board');
+    CPU.isTurn();
     if (gameIsOver()) return endGame();
 
-    CPU.isTurn(); // CPU Turn
     const CPUMove = CPU.playRandomMove();
     domElements.markHit(playerGameBoard, CPUMove, 'player-board');
-    if (gameIsOver()) return endGame();
-
     User.isTurn();
+    if (gameIsOver()) return endGame();
   };
 
   startGame();
