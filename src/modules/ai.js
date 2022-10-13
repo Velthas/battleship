@@ -1,11 +1,6 @@
 const AI = function (Board) {
-  // Reference to the enemy board to run checks
   const enemyBoard = Board;
-
-  // Contains moves calculated by AI
   const movesToPlay = [];
-
-  // Signals which direction we were trying
   let currentOffsetIndex;
 
   // Moves to try are four tiles in each main direction
@@ -15,6 +10,14 @@ const AI = function (Board) {
   const rightmostOffsets = [[0, 1], [0, 2], [0, 3], [0, 4]];
   const allOffsets = [upwardOffsets, downwardOffsets, leftmostOffsets, rightmostOffsets];
 
+  // Returns true if a move is legal
+  const filterLegal = function (position) {
+    if (position[0] >= 0 && position[0] < 10
+        && position[1] >= 0 && position[1] < 10) {
+      return !enemyBoard.getBoard()[position[0]][position[1]].isHit();
+    } return false;
+  };
+
   // Creates one moveset array for all main directions
   const calculatePositions = function (position) {
     allOffsets.forEach((set) => {
@@ -23,7 +26,6 @@ const AI = function (Board) {
       for (let i = 0; i < set.length; i++) {
         const actualY = position[0] + set[i][0];
         const actualX = position[1] + set[i][1];
-
         if (!filterLegal([actualY, actualX])) break;
         positionsArray.push([actualY, actualX]);
       }
@@ -33,27 +35,11 @@ const AI = function (Board) {
     });
   };
 
-  // Returns true if a move is legal
-  const filterLegal = function (position) {
-    if (position[0] >= 0 && position[0] < 10
-      && position[1] >= 0 && position[1] < 10) {
-      return !enemyBoard.getBoard()[position[0]][position[1]].isHit();
-    } return false;
-  };
+  const hasMovesToPlay = () => movesToPlay.length !== 0;
 
-  // Informs on state of hasMovesToPlay
-  const hasMovesToPlay = function () {
-    return movesToPlay.length !== 0;
-  };
+  const removeMovesArray = (index) => movesToPlay.splice(index, 1);
 
-  // Removes a moveset from the movesToPlay array
-  const removeMovesArray = function (index) {
-    movesToPlay.splice(index, 1);
-  };
-
-  const doesMoveHit = function (move) {
-    return enemyBoard.getBoard()[move[0]][move[1]].hasShip();
-  };
+  const doesMoveHit = (move) => enemyBoard.getBoard()[move[0]][move[1]].hasShip();
 
   // Randomly decides which offset set is to be used
   const selectMoveset = function () {
