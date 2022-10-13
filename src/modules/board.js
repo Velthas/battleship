@@ -60,11 +60,8 @@ const Board = function () {
   const allShipsSunk = () => ships.filter((ship) => ship.isSunk()).length === ships.length;
 
   const markTileAsPlayed = function (coordinate) {
-    const x = coordinate[1]; // The idea is that we find which of the 100 tiles
-    const y = coordinate[0] * 10; // has been hit, and remove it from the array
-    const playedTile = x + y; // The CPU can then choose any number out of the lenght
-    unplayedTiles.splice(unplayedTiles.indexOf(playedTile), 1); // of the array
-    // and they'll have a tile that has not been played
+    const playedTile = coordinate[1] + coordinate[0] * 10;
+    unplayedTiles.splice(unplayedTiles.indexOf(playedTile), 1);
   };
 
   // Returns random nonhit tile coordinates
