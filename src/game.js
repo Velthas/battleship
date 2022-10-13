@@ -35,7 +35,7 @@ const Game = (function () {
   const endGame = function () {
     gameOver = true;
     winner = User.turnState() === true ? 'CPU' : 'Player';
-    domElements.createResetDiv(winner, startGame);
+    domElements.createResetDiv(winner === 'Player', startGame);
   };
 
   const playGameTurn = function (coordinate) {
