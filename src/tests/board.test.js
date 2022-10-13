@@ -44,12 +44,12 @@ test('Ships cannot be placed on top of each other', () => {
   board.placeShip(lifeboat, [4, 4]);
   let currentBoard = board.getBoard();
   expect(currentBoard[4][4].hasShip()).not.toBe(false);
-  const boat = currentBoard[4][4].getShip().reference;
+  const boat = currentBoard[4][4].getShip();
   // Place a new ship on top of it
   board.placeShip(destroyer, [4, 4]);
   currentBoard = board.getBoard();
   // If the reference matches the first boat, then the second one didnt replace it
-  expect(currentBoard[4][4].getShip().reference).toEqual(boat);
+  expect(currentBoard[4][4].getShip()).toEqual(boat);
 });
 
 test('Single hit is registered', () => {
@@ -58,7 +58,7 @@ test('Single hit is registered', () => {
   board.placeShip(lifeboat, [4, 4]);
   board.receiveAttack([4, 4]);
   const currentBoard = board.getBoard();
-  expect(currentBoard[4][4].getShip().reference.isSunk()).toBe(true);
+  expect(currentBoard[4][4].getShip().isSunk()).toBe(true);
 });
 
 test('Corvette correctly sunk by attacking all of its 3 positions', () => {
@@ -70,7 +70,7 @@ test('Corvette correctly sunk by attacking all of its 3 positions', () => {
   board.receiveAttack([4, 5]);
   board.receiveAttack([4, 6]);
 
-  const isShipSunk = board.getBoard()[4][4].getShip().reference.isSunk();
+  const isShipSunk = board.getBoard()[4][4].getShip().isSunk();
   expect(isShipSunk).toBe(true);
 });
 
@@ -96,4 +96,3 @@ test('Board correctly identifies when all ships on it are sunk', () => {
 
   expect(board.allShipsSunk()).toBe(true);
 });
-
